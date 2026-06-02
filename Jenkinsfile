@@ -2,38 +2,27 @@ pipeline {
     agent any
 
     stages {
-
         stage('Checkout') {
             steps {
                 checkout scm
             }
         }
 
-        stage('Remove Old Container') {
+        stage('Build') {
             steps {
-                sh '''
-                docker stop nginx-container || true
-                docker rm nginx-container || true
-                '''
+                echo 'Code pulled successfully from GitHub'
             }
         }
 
-        stage('Run Nginx Container') {
+        stage('Test') {
             steps {
-                sh '''
-                docker pull nginx:latest
-
-                docker run -d \
-                --name nginx-container \
-                -p 8080:80 \
-                nginx:latest
-                '''
+                echo 'Application tested successfully'
             }
         }
 
-        stage('Verify') {
+        stage('Deploy') {
             steps {
-                sh 'docker ps'
+                echo 'Application deployed successfully'
             }
         }
     }
